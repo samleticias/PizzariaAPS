@@ -3,6 +3,7 @@ package com.aps.pizzariaapi.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -12,6 +13,7 @@ import java.util.Collection;
 import java.util.List;
 
 @EqualsAndHashCode(of = "id")
+@Data
 @Entity(name = "users")
 @Table(name = "users")
 public class User implements UserDetails {
@@ -29,6 +31,9 @@ public class User implements UserDetails {
 
     @NotNull
     private UserRole role;
+
+    @OneToOne
+    private Address address;
 
     public User() {
     }

@@ -14,8 +14,11 @@ import java.util.Optional;
 @Service
 public class PizzaService {
 
-    @Autowired
     private PizzaRepository pizzaRepository;
+
+    public PizzaService(PizzaRepository pizzaRepository) {
+        this.pizzaRepository = pizzaRepository;
+    }
 
     public List<Pizza> getAllPizzas(){
         return pizzaRepository.findAll();

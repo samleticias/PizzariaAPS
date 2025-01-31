@@ -4,7 +4,6 @@ import com.aps.pizzariaapi.dto.PizzaDTO;
 import com.aps.pizzariaapi.entity.Pizza;
 import com.aps.pizzariaapi.service.PizzaService;
 import com.aps.pizzariaapi.service.exception.PizzaNotFoundException;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -15,8 +14,11 @@ import java.util.List;
 @RequestMapping("/pizzas")
 public class PizzaController {
 
-    @Autowired
     private PizzaService pizzaService;
+
+    public PizzaController(PizzaService pizzaService) {
+        this.pizzaService = pizzaService;
+    }
 
     @GetMapping
     public ResponseEntity<List<Pizza>> getAllPizzas(){

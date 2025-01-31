@@ -21,6 +21,10 @@ public class Order {
     @Column(name = "createdAt", nullable = false)
     private LocalDateTime createdAt;
 
+    // TODO: Associar pedido a cliente
+//    @ManyToOne
+//    private Customer customer;
+
     @Column(name = "status", nullable = false)
     @Enumerated(EnumType.STRING)
     private OrderStatus status;

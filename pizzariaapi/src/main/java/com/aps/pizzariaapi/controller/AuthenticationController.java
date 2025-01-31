@@ -43,7 +43,6 @@ public class AuthenticationController {
 
     @PostMapping("/register")
     public ResponseEntity<User> register(@RequestBody @Valid UserRegisterDTO request) {
-
         String password = new BCryptPasswordEncoder().encode(request.password());
         User user = new User(request.username(), password, UserRole.ADMIN);
         user = this.userService.createUser(user);

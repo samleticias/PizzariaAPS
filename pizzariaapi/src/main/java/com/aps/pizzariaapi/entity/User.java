@@ -3,7 +3,6 @@ package com.aps.pizzariaapi.entity;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
-import lombok.Data;
 import lombok.EqualsAndHashCode;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,14 +30,13 @@ public class User implements UserDetails {
     @NotNull
     private UserRole role;
 
+    public User() {
+    }
+
     public User(@NotBlank String username, String password, UserRole userRole) {
         this.username = username;
         this.password = password;
         this.role = userRole;
-    }
-
-    public User() {
-
     }
 
     @Override

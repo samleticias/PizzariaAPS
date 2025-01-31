@@ -1,4 +1,4 @@
 ## PizzariaAPS
-- Dupla
-  - João Victor
-  - Sammya
+#### Dupla
+- João Victor
+- Sammya

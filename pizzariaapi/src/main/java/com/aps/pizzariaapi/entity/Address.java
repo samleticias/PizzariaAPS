@@ -1,9 +1,7 @@
 package com.aps.pizzariaapi.entity;
 
 import jakarta.persistence.*;
-import lombok.Data;
 
-@Data
 @Entity
 @Table(name = "addresses")
 public class Address {
@@ -16,21 +14,41 @@ public class Address {
     @Column(nullable = false, length = 255)
     private String street;  // logradouro
 
-    @Column(nullable = false, length = 50)
-    private String neighborhood;  // bairro
-
     @Column(nullable = false, length = 20)
     private String number;  // número da residência
-
-    @Column(nullable = false, length = 50)
-    private String city;  // cidade
-
-    @Column(nullable = false, length = 50)
-    private String state;  // estado
 
     @Column(nullable = false, length = 20)
     private String zipCode;  // CEP
 
-    @Column(nullable = false, length = 100)
-    private String country;  // país
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getStreet() {
+        return street;
+    }
+
+    public void setStreet(String street) {
+        this.street = street;
+    }
+
+    public String getNumber() {
+        return number;
+    }
+
+    public void setNumber(String number) {
+        this.number = number;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public void setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+    }
 }

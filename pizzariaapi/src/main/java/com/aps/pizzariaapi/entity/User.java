@@ -32,9 +32,6 @@ public class User implements UserDetails {
     @NotNull
     private UserRole role;
 
-    @OneToOne
-    private Address address;
-
     public User() {
     }
 

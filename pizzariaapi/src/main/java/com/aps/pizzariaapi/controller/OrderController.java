@@ -30,4 +30,10 @@ public class OrderController {
         List<OrderResponseDTO> orderList = this.orderService.findAllOrders();
         return ResponseEntity.ok().body(orderList);
     }
+
+    @DeleteMapping("/{orderId}")
+    public ResponseEntity<Void> deleteById(@PathVariable Long orderId) {
+        this.orderService.deleteById(orderId);
+        return ResponseEntity.noContent().build();
+    }
 }

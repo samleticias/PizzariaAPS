@@ -95,6 +95,7 @@ public class OrderService {
         return optionalOrder.orElseThrow(() -> new OrderNotFound("Order not found"));
     }
 
+    @Transactional
     public void deleteById(Long id) throws OrderNotFound {
         this.findById(id);
         this.orderRepository.deleteById(id);

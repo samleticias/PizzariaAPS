@@ -16,21 +16,9 @@ public class Address {
     @Column(nullable = false, length = 255)
     private String street;  // logradouro
 
-    @Column(nullable = false, length = 50)
-    private String neighborhood;  // bairro
-
     @Column(nullable = false, length = 20)
     private String number;  // número da residência
 
-    @Column(nullable = false, length = 50)
-    private String city;  // cidade
-
-    @Column(nullable = false, length = 50)
-    private String state;  // estado
-
     @Column(nullable = false, length = 20)
     private String zipCode;  // CEP
-
-    @Column(nullable = false, length = 100)
-    private String country;  // país
 }

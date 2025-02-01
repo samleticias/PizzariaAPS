@@ -2,7 +2,7 @@ package com.aps.pizzariaapi.service;
 
 import com.aps.pizzariaapi.entity.Address;
 import com.aps.pizzariaapi.repository.AddressRepository;
-import com.aps.pizzariaapi.service.exception.AddressNotFound;
+import com.aps.pizzariaapi.service.exception.AddressNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,8 +21,8 @@ public class AddressService {
         return address;
     }
 
-    public Address findById(Long id) throws AddressNotFound {
+    public Address findById(Long id) throws AddressNotFoundException {
         Optional<Address> optionalAddress = this.addressRepository.findById(id);
-        return optionalAddress.orElseThrow(() -> new AddressNotFound("Address not found"));
+        return optionalAddress.orElseThrow(() -> new AddressNotFoundException("Address not found"));
     }
 }

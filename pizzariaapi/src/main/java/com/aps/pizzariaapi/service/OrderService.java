@@ -1,13 +1,13 @@
 package com.aps.pizzariaapi.service;
 
-import com.aps.pizzariaapi.dto.OrderDTO;
+import com.aps.pizzariaapi.dto.OrderRequestDTO;
 import com.aps.pizzariaapi.dto.OrderItemDTO;
 import com.aps.pizzariaapi.dto.OrderItemResponseDTO;
 import com.aps.pizzariaapi.dto.OrderResponseDTO;
 import com.aps.pizzariaapi.entity.*;
 import com.aps.pizzariaapi.entity.enums.OrderStatus;
 import com.aps.pizzariaapi.repository.OrderRepository;
-import com.aps.pizzariaapi.service.exception.OrderNotFound;
+import com.aps.pizzariaapi.service.exception.OrderNotFoundException;
 import com.aps.pizzariaapi.service.exception.PizzaNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
@@ -33,7 +33,7 @@ public class OrderService {
     }
 
     @Transactional
-    public Order createOrder(OrderDTO request) throws PizzaNotFoundException {
+    public Order createOrder(OrderRequestDTO request) throws PizzaNotFoundException {
         // Criar endereço do cliente
         Address address = new Address();
         address.setStreet(request.client().address().street());
@@ -90,13 +90,13 @@ public class OrderService {
         }).toList();
     }
 
-    public Order findById(Long id) throws OrderNotFound {
+    public Order findById(Long id) throws OrderNotFoundException {
         Optional<Order> optionalOrder = this.orderRepository.findById(id);
-        return optionalOrder.orElseThrow(() -> new OrderNotFound("Order not found"));
+        return optionalOrder.orElseThrow(() -> new OrderNotFoundException("Order not found"));
     }
 
     @Transactional
-    public void deleteById(Long id) throws OrderNotFound {
+    public void deleteById(Long id) throws OrderNotFoundException {
         this.findById(id);
         this.orderRepository.deleteById(id);
     }

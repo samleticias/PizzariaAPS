@@ -2,8 +2,8 @@ package com.aps.pizzariaapi.dto;
 
 import java.util.List;
 
-public record OrderDTO(
-        ClientDTO client,
+public record OrderRequestDTO(
+        ClientResponseDTO client,
         List<OrderItemDTO> orderItems
 ) {
 }

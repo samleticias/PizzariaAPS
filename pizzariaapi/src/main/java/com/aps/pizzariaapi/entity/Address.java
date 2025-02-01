@@ -19,8 +19,6 @@ public class Address {
 
     @Column(nullable = false, length = 20)
     private String zipCode;  // CEP
-<<<<<<< HEAD
-=======
 
     public Long getId() {
         return id;
@@ -53,5 +51,4 @@ public class Address {
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
     }
->>>>>>> 57ffd5b4eb3138e3f9fc494cfe08cdf0ddfd8fdd
 }

@@ -2,7 +2,7 @@ package com.aps.pizzariaapi.service;
 
 import com.aps.pizzariaapi.entity.Client;
 import com.aps.pizzariaapi.repository.ClientRepository;
-import com.aps.pizzariaapi.service.exception.ClientNotFound;
+import com.aps.pizzariaapi.service.exception.ClientNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -21,8 +21,8 @@ public class ClientService {
         return client;
     }
 
-    public Client findById(Long id) throws ClientNotFound{
+    public Client findById(Long id) throws ClientNotFoundException {
         Optional<Client> optionalClient = clientRepository.findById(id);
-        return optionalClient.orElseThrow(() -> new ClientNotFound("Client not found"));
+        return optionalClient.orElseThrow(() -> new ClientNotFoundException("Client not found"));
     }
 }

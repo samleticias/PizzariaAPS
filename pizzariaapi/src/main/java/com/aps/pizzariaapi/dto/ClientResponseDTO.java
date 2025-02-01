@@ -1,6 +1,6 @@
 package com.aps.pizzariaapi.dto;
 
-public record ClientDTO(
+public record ClientResponseDTO(
         String username,
         String phone,
         AddressDTO address

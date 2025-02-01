@@ -1,6 +1,6 @@
 package com.aps.pizzariaapi.controller;
 
-import com.aps.pizzariaapi.dto.OrderDTO;
+import com.aps.pizzariaapi.dto.OrderRequestDTO;
 import com.aps.pizzariaapi.dto.OrderResponseDTO;
 import com.aps.pizzariaapi.entity.Order;
 import com.aps.pizzariaapi.service.OrderService;
@@ -20,7 +20,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public ResponseEntity<Order> createOrder(@RequestBody OrderDTO request) {
+    public ResponseEntity<Order> createOrder(@RequestBody OrderRequestDTO request) {
         Order order = orderService.createOrder(request);
         return ResponseEntity.ok(order);
     }

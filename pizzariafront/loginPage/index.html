@@ -27,54 +27,137 @@
 </body> 
 <script>
     async function carregarPedidos() {
-        try {
-            const token = localStorage.getItem("token"); 
-            const response = await fetch("http://localhost:8080/order", {
-                method: "GET",
-                headers: {
-                    "Authorization": `Bearer ${token}`,
-                    "Content-Type": "application/json"
-                }
-            });
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch("http://localhost:8080/order", {
+          method: "GET",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          }
+        });
 
-            if (!response.ok) {
-                throw new Error("Erro ao buscar pedidos");
-            }
-
-            const pedidos = await response.json();
-            const listaPedidos = document.getElementById("lista-pedidos");
-            listaPedidos.innerHTML = "";
-
-            pedidos.forEach(pedido => {
-                const pedidoElemento = document.createElement("div");
-                pedidoElemento.classList.add("order-card");
-                pedidoElemento.innerHTML = `
-                    <p><strong>Pedido #</strong> ${pedido.id}</p>
-                    <p><strong>Data:</strong> ${new Date(pedido.createdAt).toLocaleString("pt-BR")}</p>
-                    <p><strong>Status:</strong> ${pedido.status}</p>
-                    <p><strong>Cliente:</strong> ${pedido.clientName}</p>
-                    <p><strong>Itens:</strong></p>
-                    <ul>
-                        ${pedido.items.map(item => `<li>${item.pizzaName} (x${item.quantity})</li>`).join("")}
-                    </ul>
-                    <p><strong>Total R$:</strong> ${pedido.totalAmount.toFixed(2)}</p>
-                `;
-                listaPedidos.appendChild(pedidoElemento);
-            });
-        } catch (error) {
-            console.error("Erro ao carregar pedidos:", error);
+        if (!response.ok) {
+          throw new Error("Erro ao buscar pedidos");
         }
+
+        const pedidos = await response.json();
+        const listaPedidos = document.getElementById("lista-pedidos");
+        listaPedidos.innerHTML = "";
+
+        pedidos.forEach(pedido => {
+          const pedidoElemento = document.createElement("div");
+          pedidoElemento.classList.add("order-card");
+          pedidoElemento.innerHTML = `
+            <p><strong>Pedido #</strong> ${pedido.id}</p>
+            <p><strong>Data:</strong> ${new Date(pedido.createdAt).toLocaleString("pt-BR")}</p>
+            <p><strong>Status:</strong> <span id="status-text-${pedido.id}">${formatarStatus(pedido.status)}</span></p>
+            <select id="status-select-${pedido.id}" class="status-dropdown" style="display: none;">
+                <option value="PREPARING">Preparando</option>
+                <option value="DELIVERED">Entregue</option>
+                <option value="RECEIVED">Recebido</option>
+            </select>
+            <p><strong>Cliente:</strong> ${pedido.clientName}</p>
+            <p><strong>Itens:</strong></p>
+            <ul>
+              ${pedido.items.map(item => `<li>${item.pizzaName} (x${item.quantity})</li>`).join("")}
+            </ul>
+            <p><strong>Total R$:</strong> ${pedido.totalAmount.toFixed(2)}</p>
+            <div class="order-actions">
+              <button class="btn-editar" onclick="habilitarEdicao(${pedido.id})">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button class="btn-excluir" onclick="excluirPedido(${pedido.id})">
+                <i class="fas fa-trash"></i>
+              </button>
+              <button class="btn-salvar" id="btn-salvar-${pedido.id}" style="display: none; width: 100%; margin-top: 5px; font-size: 12px;" onclick="salvarStatus(${pedido.id})">
+                Salvar
+              </button>
+            </div>
+          `;
+          listaPedidos.appendChild(pedidoElemento);
+          document.getElementById(`status-select-${pedido.id}`).value = pedido.status;
+        });
+      } catch (error) {
+        console.error("Erro ao carregar pedidos:", error);
+      }
     }
 
+    function formatarStatus(status) {
+      const statusMap = {
+        "PREPARING": "Preparando",
+        "DELIVERED": "Entregue",
+        "RECEIVED": "Recebido"
+      };
+      return statusMap[status] || status;
+    }
+
+    function habilitarEdicao(pedidoId) {
+      document.getElementById(`status-text-${pedidoId}`).style.display = "none";
+      document.getElementById(`status-select-${pedidoId}`).style.display = "inline-block";
+      document.getElementById(`btn-salvar-${pedidoId}`).style.display = "block";
+    }
+
+    async function salvarStatus(pedidoId) {
+      try {
+        const token = localStorage.getItem("token");
+        const novoStatus = document.getElementById(`status-select-${pedidoId}`).value;
+        const response = await fetch(`http://localhost:8080/order/${pedidoId}/status`, {
+          method: "PUT",
+          headers: {
+            "Authorization": `Bearer ${token}`,
+            "Content-Type": "application/json"
+          },
+          body: JSON.stringify({ status: novoStatus })
+        });
+
+        if (!response.ok) {
+          throw new Error("Erro ao atualizar status");
+        }
+
+        alert("Status atualizado com sucesso!");
+        document.getElementById(`status-text-${pedidoId}`).innerText = formatarStatus(novoStatus);
+        document.getElementById(`status-text-${pedidoId}`).style.display = "inline";
+        document.getElementById(`status-select-${pedidoId}`).style.display = "none";
+        document.getElementById(`btn-salvar-${pedidoId}`).style.display = "none";
+      } catch (error) {
+        console.error("Erro ao atualizar status:", error);
+      }
+    }
+
+    async function excluirPedido(pedidoId) {
+      if (!confirm("Tem certeza que deseja excluir este pedido?")) return;
+
+      try {
+        const token = localStorage.getItem("token");
+        const response = await fetch(`http://localhost:8080/order/${pedidoId}`, {
+          method: "DELETE",
+          headers: {
+            "Authorization": `Bearer ${token}`
+          }
+        });
+
+        if (!response.ok) {
+          throw new Error("Erro ao excluir pedido");
+        }
+
+        alert("Pedido excluído com sucesso!");
+        carregarPedidos();
+      } catch (error) {
+        console.error("Erro ao excluir pedido:", error);
+      }
+    }
+
+    document.getElementById('btn-sair').addEventListener('click', function () {
+      localStorage.removeItem('token');
+      window.location.href = 'login.html';
+    });
+
+    document.getElementById('btn-novo-pedido').addEventListener('click', function () {
+      window.location.href = 'create-order.html';
+    });
+
     document.addEventListener("DOMContentLoaded", carregarPedidos);
-
-    document.getElementById('btn-sair').addEventListener('click', function() {
-        localStorage.removeItem('token');
-        window.location.href = 'login.html'; 
-    });
-
-    document.getElementById('btn-novo-pedido').addEventListener('click', function() {
-        window.location.href = 'create-order.html'; 
-    });
 </script>
+
 </html>

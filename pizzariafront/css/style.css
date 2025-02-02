@@ -260,6 +260,31 @@ main h1 {
   padding: 5px 0;
 }
 
+.order-card select {
+  display: block;
+  width: 100%;
+  padding: 8px;
+  margin-top: 5px;
+  font-size: 16px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  background: #f8f8f8;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.order-card select:hover {
+  background: #eaeaea;
+}
+
+.order-card label {
+  font-size: 18px;
+  font-weight: bold;
+  color: #399ade;
+  display: block;
+  margin-top: 10px;
+}
+
 @media (max-width: 768px) {
   .orders-container {
     grid-template-columns: repeat(2, 1fr); 
@@ -298,3 +323,23 @@ main h1 {
 .top-buttons button:hover {
   background-color: #31b0d5;
 }
+
+.btn-salvar {
+  display: block;
+  width: 100%;
+  padding: 10px;
+  margin-top: 10px;
+  background: #00509d;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+.btn-salvar:hover {
+  background: #00a6fb;
+}
+

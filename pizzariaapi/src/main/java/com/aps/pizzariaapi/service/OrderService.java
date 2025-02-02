@@ -54,7 +54,7 @@ public class OrderService {
         Order order = new Order();
         order.setClient(client);
         order.setCreatedAt(LocalDateTime.now());
-        order.setStatus(OrderStatus.PREPARING);
+        order.setStatus(OrderStatus.RECEIVED);
 
         // Criar itens do pedido
         List<OrderItem> orderItems = new ArrayList<>();
@@ -112,5 +112,12 @@ public class OrderService {
                 items,
                 totalAmount
         );
+    }
+
+    public void updateStatus(Long orderId, OrderStatus newStatus) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException("Pedido não encontrado."));
+        order.setStatus(newStatus);
+        orderRepository.save(order);
     }
 }

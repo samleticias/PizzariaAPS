@@ -10,25 +10,53 @@
 </head>
 
 <body>
-  <main>
-    <h1>Bem-vindo ao JS Pizza <span>Quentinha</span></h1>
-    <div id="welcome-message">
-      <p>Você está logado com sucesso!</p>
-      <button onclick="logout()">Sair</button>
-    </div>
-  </main>
-  <script>
-    // Verifica se o usuário está logado (se o token está no localStorage)
-    if (!localStorage.getItem("token")) {
-      window.location.href = "login.html"; // Redireciona para a página de login se não estiver logado
+    <main>
+        <h1>JS Pizza <span>Quentinha</span></h1>
+        <h2>Pedidos Existentes</h2>
+        <div id="lista-pedidos" class="orders-container"></div>        
+    </main>
+</body> 
+<script>
+    async function carregarPedidos() {
+        try {
+            const token = localStorage.getItem("token"); 
+            const response = await fetch("http://localhost:8080/order", {
+                method: "GET",
+                headers: {
+                    "Authorization": `Bearer ${token}`,
+                    "Content-Type": "application/json"
+                }
+            });
+
+            if (!response.ok) {
+                throw new Error("Erro ao buscar pedidos");
+            }
+
+            const pedidos = await response.json();
+            const listaPedidos = document.getElementById("lista-pedidos");
+            listaPedidos.innerHTML = "";
+
+            pedidos.forEach(pedido => {
+                const pedidoElemento = document.createElement("div");
+                pedidoElemento.classList.add("order-card");
+                pedidoElemento.innerHTML = `
+                    <p><strong>Pedido #</strong> ${pedido.id}</p>
+                    <p><strong>Data:</strong> ${new Date(pedido.createdAt).toLocaleString("pt-BR")}</p>
+                    <p><strong>Status:</strong> ${pedido.status}</p>
+                    <p><strong>Cliente:</strong> ${pedido.clientName}</p>
+                    <p><strong>Itens:</strong></p>
+                    <ul>
+                        ${pedido.items.map(item => `<li>${item.pizzaName} (x${item.quantity})</li>`).join("")}
+                    </ul>
+                `;
+                listaPedidos.appendChild(pedidoElemento);
+            });
+        } catch (error) {
+            console.error("Erro ao carregar pedidos:", error);
+        }
     }
 
-    // Função de logout que remove o token e redireciona para a página de login
-    function logout() {
-      localStorage.removeItem("token");
-      window.location.href = "login.html"; // Redireciona para a página de login
-    }
-  </script>
-</body>
+    document.addEventListener("DOMContentLoaded", carregarPedidos);
+</script>
 
 </html>

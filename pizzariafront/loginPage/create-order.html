@@ -1,12 +1,12 @@
 <!DOCTYPE html>
-<html>
+<html lang="pt-br">
 
 <head>
-  <link href="https://fonts.googleapis.com/css?family=Hepta+Slab:400,700|Lato:400,700&display=swap" rel="stylesheet">
-  <meta charset="utf-8" />
-  <link rel="stylesheet" href="./../../css/style.css" />
+  <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="shortcut icon" type="image/x-icon" href="./../../images/favicon.ico">
+  <link rel="stylesheet" href="./../../css/style.css">
+  <link href="https://fonts.googleapis.com/css?family=Hepta+Slab:400,700|Lato:400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <title>Cadastro de Pedido - JS Pizza Quentinha</title>
 </head>
 
@@ -17,14 +17,159 @@
       <h2>Cadastro de Cliente</h2>
       <input type="text" id="cliente-nome" placeholder="Nome" required>
       <input type="tel" id="cliente-telefone" placeholder="Telefone" required>
-      
+
       <h2>Endereço</h2>
       <input type="text" id="endereco-logradouro" placeholder="Logradouro" required>
       <input type="text" id="endereco-numero" placeholder="Número da casa" required>
       <input type="text" id="endereco-cep" placeholder="CEP" required>
-              
-      <button >Cadastrar</button>
+
+      <h2>Selecione as Pizzas</h2>
+      <div id="pizza-list"></div>
+
+      <h3>Total: R$ <span id="total-value">0.00</span></h3>
+
+      <button id="cadastrar-pedido">Cadastrar Pedido</button>
     </div>
   </main>
+
+  <script>
+    let pizzas = [];
+    let orderItems = [];
+
+    async function carregarPizzas() {
+      try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          throw new Error("Token de autenticação não encontrado");
+        }  
+
+        const response = await fetch("http://localhost:8080/pizzas", {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}` 
+          }
+        });       
+
+        if (!response.ok) {
+          throw new Error("Erro ao carregar as pizzas");
+        }
+
+        pizzas = await response.json();
+        exibirPizzas();
+      } catch (error) {
+        console.error("Erro ao carregar pizzas:", error);
+        alert("Você precisa estar autenticado para acessar este recurso.");
+      }
+    }
+
+    function mapearTamanhoPizza(tamanho) {
+        switch (tamanho) {
+            case 'MEDIUM':
+                return 'M';  // Medium -> M
+            case 'LARGE':
+                return 'G';  // Large -> G
+            case 'EXTRA_LARGE':
+                return 'GG'; // Extra Large -> GG
+            default:
+                return tamanho; 
+        }
+    }
+
+    function exibirPizzas() {
+      const pizzaListElement = document.getElementById("pizza-list");
+      pizzaListElement.innerHTML = '';
+
+      pizzas.forEach(pizza => {
+        const pizzaElement = document.createElement("div");
+        pizzaElement.classList.add("pizza-item");
+
+        pizzaElement.innerHTML = `
+          <label>
+            <input type="checkbox" data-pizza-id="${pizza.id}" data-pizza-price="${pizza.basePrice}" class="pizza-checkbox">
+            ${pizza.name} - ${mapearTamanhoPizza(pizza.size)} - R$ ${pizza.basePrice.toFixed(2)} 
+            <input type="number" min="1" value="1" class="pizza-quantity" data-pizza-id="${pizza.id}">
+          </label>
+        `;
+        pizzaListElement.appendChild(pizzaElement);
+      });
+
+      atualizarTotal();
+    }
+
+    function atualizarTotal() {
+      let total = 0;
+      orderItems = [];
+
+      document.querySelectorAll('.pizza-checkbox:checked').forEach(checkbox => {
+        const pizzaId = checkbox.getAttribute('data-pizza-id');
+        const pizzaPrice = parseFloat(checkbox.getAttribute('data-pizza-price'));
+        const quantity = parseInt(checkbox.closest('label').querySelector('.pizza-quantity').value);
+
+        total += pizzaPrice * quantity;
+        orderItems.push({
+          pizzaId: pizzaId,
+          quantity: quantity
+        });
+      });
+
+      document.getElementById("total-value").textContent = total.toFixed(2);
+    }
+
+    async function cadastrarPedido() {
+      const cliente = {
+        username: document.getElementById("cliente-nome").value,
+        phone: document.getElementById("cliente-telefone").value,
+        address: {
+          street: document.getElementById("endereco-logradouro").value,
+          number: document.getElementById("endereco-numero").value,
+          zipCode: document.getElementById("endereco-cep").value
+        }
+      };
+
+      const orderRequest = {
+        client: cliente,
+        orderItems: orderItems
+      };
+
+      const token = localStorage.getItem("token");
+
+      if (!token) {
+        throw new Error("Token de autenticação não encontrado");
+      }    
+
+      try {
+        const response = await fetch("http://localhost:8080/order", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            "Authorization": `Bearer ${token}`
+          },
+          body: JSON.stringify(orderRequest)
+        });
+
+        if (!response.ok) {
+          throw new Error("Erro ao cadastrar o pedido");
+        }
+
+        const pedido = await response.json();
+        alert("Pedido cadastrado com sucesso!");
+        window.location.href = 'index.html'; 
+      } catch (error) {
+        console.error("Erro ao cadastrar pedido:", error);
+      }
+    }
+
+    document.getElementById("cadastrar-pedido").addEventListener("click", cadastrarPedido);
+
+    document.addEventListener("input", function(event) {
+      if (event.target.classList.contains("pizza-checkbox") || event.target.classList.contains("pizza-quantity")) {
+        atualizarTotal();
+      }
+    });
+
+    document.addEventListener("DOMContentLoaded", carregarPizzas);
+  </script>
 </body>
 </html>

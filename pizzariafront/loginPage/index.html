@@ -57,6 +57,7 @@
                     <ul>
                         ${pedido.items.map(item => `<li>${item.pizzaName} (x${item.quantity})</li>`).join("")}
                     </ul>
+                    <p><strong>Total R$:</strong> ${pedido.totalAmount.toFixed(2)}</p>
                 `;
                 listaPedidos.appendChild(pedidoElemento);
             });

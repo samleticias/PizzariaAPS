@@ -8,12 +8,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
@@ -32,20 +28,6 @@ public class SecurityFilter extends OncePerRequestFilter {
     public SecurityFilter(UserService userService, TokenJWTService tokenJWTService) {
         this.userService = userService;
         this.tokenJWTService = tokenJWTService;
-    }
-
-    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http
-                .cors(cors -> cors.configurationSource(corsConfigurationSource())) // Aplica as regras de CORS
-                .csrf(csrf -> csrf.disable()) // Desabilita CSRF (para APIs REST)
-                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS)) // JWT não usa sessão
-                .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/public/**").permitAll() // Define rotas públicas
-                        .anyRequest().authenticated()
-                )
-                .addFilterBefore(this, UsernamePasswordAuthenticationFilter.class); // Adiciona o filtro JWT
-
-        return http.build();
     }
 
     @Override

@@ -12,10 +12,12 @@ import com.aps.pizzariaapi.service.exception.PizzaNotFoundException;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class OrderService {
@@ -72,22 +74,11 @@ public class OrderService {
         return orderRepository.save(order);
     }
 
-    @Transactional
     public List<OrderResponseDTO> findAllOrders() {
         List<Order> orders = orderRepository.findAll();
-        return orders.stream().map(order -> {
-            List<OrderItemResponseDTO> items = order.getOrderItems().stream().map(item -> {
-                OrderItemResponseDTO itemResponse = new OrderItemResponseDTO(item.getPizza().getName(), item.getQuantity());
-                return itemResponse;
-            }).toList();
-
-            OrderResponseDTO response = new OrderResponseDTO(order.getId(),
-                    order.getCreatedAt(),
-                    order.getStatus().name(),
-                    order.getClient().getUsername(), items);
-
-            return response;
-        }).toList();
+        return orders.stream()
+                .map(this::mapToOrderResponseDTO)
+                .collect(Collectors.toList());
     }
 
     public Order findById(Long id) throws OrderNotFoundException {
@@ -99,5 +90,27 @@ public class OrderService {
     public void deleteById(Long id) throws OrderNotFoundException {
         this.findById(id);
         this.orderRepository.deleteById(id);
+    }
+
+    public OrderResponseDTO mapToOrderResponseDTO(Order order) {
+        List<OrderItemResponseDTO> items = order.getOrderItems().stream()
+                .map(orderItem -> new OrderItemResponseDTO(
+                        orderItem.getPizza().getName(),
+                        orderItem.getQuantity()
+                ))
+                .collect(Collectors.toList());
+
+        BigDecimal totalAmount = order.getOrderItems().stream()
+                .map(orderItem -> orderItem.getUnitPrice().multiply(BigDecimal.valueOf(orderItem.getQuantity())))
+                .reduce(BigDecimal.ZERO, BigDecimal::add);
+
+        return new OrderResponseDTO(
+                order.getId(),
+                order.getCreatedAt(),
+                order.getStatus().name(),
+                order.getClient().getUsername(),
+                items,
+                totalAmount
+        );
     }
 }

@@ -6,11 +6,20 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="stylesheet" href="./../css/style.css">
   <link href="https://fonts.googleapis.com/css?family=Hepta+Slab:400,700|Lato:400,700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <title>JS Pizza Quentinha</title>
 </head>
 
 <body>
     <main>
+        <div class="top-buttons">
+            <button id="btn-novo-pedido">
+                <i class="fas fa-plus"></i>Novo Pedido
+            </button>
+            <button id="btn-sair">
+              <i class="fas fa-sign-out-alt"></i>Sair
+            </button>
+        </div>
         <h1>JS Pizza <span>Quentinha</span></h1>
         <h2>Pedidos Existentes</h2>
         <div id="lista-pedidos" class="orders-container"></div>        
@@ -57,6 +66,16 @@
     }
 
     document.addEventListener("DOMContentLoaded", carregarPedidos);
+
+    document.getElementById('btn-sair').addEventListener('click', function() {
+        localStorage.removeItem('token');
+        window.location.href = 'login.html'; 
+    });
+
+    document.getElementById('btn-novo-pedido').addEventListener('click', function() {
+        window.location.href = 'create-order.html'; 
+    });
+
 </script>
 
 </html>

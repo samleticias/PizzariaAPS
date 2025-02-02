@@ -271,3 +271,30 @@ main h1 {
     grid-template-columns: 1fr; 
   }
 }
+
+.top-buttons button {
+  padding: 12px 20px;
+  margin-left: 10px;
+  background-color: #388bc5;
+  color: white;
+  font-size: 16px;
+  font-weight: 700;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.top-buttons {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+}
+
+.top-buttons button i {
+  margin-right: 8px; 
+}
+
+.top-buttons button:hover {
+  background-color: #31b0d5;
+}

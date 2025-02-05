@@ -1,0 +1,14 @@
+@startuml
+actor Usuario
+participant "Controlador de Pedido" as Controlador
+participant "Serviço de Pedido" as Servico
+database "Banco de Dados" as BD
+
+Usuario -> Controlador : Cadastrar Pedido
+Controlador -> Servico : Validar e processar pedido
+Servico -> BD : Salvar pedido
+BD -> Servico : Confirmação de salvamento
+Servico -> Controlador : Retorna confirmação
+Controlador -> Usuario : Pedido cadastrado com sucesso
+
+@enduml

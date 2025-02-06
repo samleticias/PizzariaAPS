@@ -27,7 +27,7 @@ PizzariaAPS é um sistema completo de gerenciamento de pizzaria, desenvolvido co
 - **Deleção de Pedidos**: Permite excluir pedidos do sistema.
 
 ## Documentações do Projeto
-1. Casos de uso envolvidos com suas respectivas documentações: [acessar documento](https://docs.google.com/document/d/1WGz_WFqgrYYRpb5ZSMaD6YakHw7b4TUeJY0RGy-Trj0/edit?usp=sharing)
-2. Diagramas de sequência correspondentes a esses casos de uso: [acessar documento](https://docs.google.com/document/d/1Ge4Vh8qNhxjYtFUGCSNcwxXEDdcgWPsEtPeTWwrRHNw/edit?usp=sharing)
-3. Implementação das classes via código (plantUML): [acessar documento](https://docs.google.com/document/d/1GVOsH-0ZeYwREARdOInGZ1ceHc57TuxfnBRyRYuMadk/edit?usp=sharing)
+1. Casos de uso envolvidos com suas respectivas documentações: [Documentação de casos de uso](https://docs.google.com/document/d/1WGz_WFqgrYYRpb5ZSMaD6YakHw7b4TUeJY0RGy-Trj0/edit?usp=sharing)
+2. Diagramas de sequência correspondentes a esses casos de uso: [Diagramas de sequência de sistema](https://docs.google.com/document/d/1Ge4Vh8qNhxjYtFUGCSNcwxXEDdcgWPsEtPeTWwrRHNw/edit?usp=sharing)
+3. Implementação das classes via código (plantUML): [Classes implementadas com PlantUML](https://docs.google.com/document/d/1GVOsH-0ZeYwREARdOInGZ1ceHc57TuxfnBRyRYuMadk/edit?usp=sharing)
 

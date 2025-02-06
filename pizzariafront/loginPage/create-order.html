@@ -228,7 +228,7 @@
 
         const pedido = await response.json();
         alert("Pedido cadastrado com sucesso!");
-        window.location.href = 'index.html'; 
+        window.location.href = 'orders-list.html'; 
       } catch (error) {
         console.error("Erro ao cadastrar pedido:", error);
       }
@@ -259,7 +259,7 @@
     });
 
     document.getElementById("voltar").addEventListener("click", function() {
-      window.location.href = 'index.html'; 
+      window.location.href = 'orders-list.html'; 
     });
 
     document.getElementById("cadastrar-pedido").addEventListener("click", cadastrarPedido);

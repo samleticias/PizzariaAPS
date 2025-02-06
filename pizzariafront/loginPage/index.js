@@ -12,7 +12,7 @@ document.querySelector("#login-form button").addEventListener("click", async () 
         const data = await response.json();
         localStorage.setItem("token", data.token);
         alert("Login realizado com sucesso!");
-        window.location.href = "index.html"; 
+        window.location.href = "orders-list.html"; 
     } else {
         alert("Erro no login, verifique suas credenciais.");
     }

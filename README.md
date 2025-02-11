@@ -13,14 +13,14 @@ PizzariaAPS é um sistema completo de gerenciamento de pizzaria, desenvolvido co
 - `Spring Framework`: Framework utilizado para construir a API REST.
 - `PostgreSQL`: Banco de dados utilizado para armazenar os dados da aplicação.
 
-![Java](https://img.shields.io/badge/Java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white) ![Spring](https://img.shields.io/badge/Spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-%23336791.svg?style=for-the-badge&logo=postgresql&logoColor=white)
+  ![Java](https://img.shields.io/badge/Java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white) ![Spring](https://img.shields.io/badge/Spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white) ![PostgreSQL](https://img.shields.io/badge/PostgreSQL-%23336791.svg?style=for-the-badge&logo=postgresql&logoColor=white)
 
 ### Frontend:
 - `HTML`: Linguagem de marcação utilizada para estruturar as páginas web.
 - `CSS`: Linguagem de estilo utilizada para a apresentação das páginas web.
 - `JavaScript`: Linguagem de programação utilizada para a interação e dinamismo das páginas web.
 
-![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)  ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)  ![JavaScript](https://img.shields.io/badge/javascript-%23F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=black)  
+  ![HTML5](https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white)  ![CSS3](https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white)  ![JavaScript](https://img.shields.io/badge/javascript-%23F7DF1E.svg?style=for-the-badge&logo=javascript&logoColor=black)  
 
 ## Funcionalidades
 - **Cadastro de Funcionários**: Permite o registro de funcionários que utilizarão o sistema.
@@ -51,3 +51,12 @@ PizzariaAPS é um sistema completo de gerenciamento de pizzaria, desenvolvido co
 
 ### Lista de Pedidos
 <img src="screenshots/tela-pedidos.png" width="900">
+
+
+## Desenvolvido por
+
+| Nome                                               |
+| -------------------------------------------------- |
+| [João Victor    ](https://github.com/victordev018) |
+| [Sammya Letícia](https://github.com/samleticias)   |
+
